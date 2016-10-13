@@ -7,6 +7,11 @@ to be used with Japanese documents (pLaTeX2e and upLaTeX2e).
 
 All the package files contain ASCII characters only.
 
+## Installation
+
+- *.sty -> $TEXMF/tex/platex/endfootnotesj
+- *.tex, *.pdf -> $TEXMF/doc/platex/endfootnotesj
+
 ## Repository
 
 The bundle is maintained on GitHub:
