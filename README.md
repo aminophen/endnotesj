@@ -5,13 +5,13 @@ to be used with Japanese documents (pLaTeX, upLaTeX and LuaLaTeX).
 
 ## Installation
 
-- *.sty -> $TEXMF/tex/platex/endnotesj
-- *.tex, *.pdf -> $TEXMF/doc/platex/endnotesj
+- *.sty -> $TEXMF/tex/latex/endnotesj
+- *.tex, *.pdf -> $TEXMF/doc/latex/endnotesj
 
 ## Repository
 
 The bundle is maintained on GitHub:
-https://github.com/aminophen/endfootnotesj
+https://github.com/aminophen/endnotesj
 
 ## License
 
