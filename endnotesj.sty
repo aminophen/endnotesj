@@ -74,25 +74,25 @@
 %%       order that they were declared in the class or package."
 %
 %  Directions - force yoko (horizontal) or tate (vertical)?
-\newif\if@tate \@tatefalse
-\newif\if@yoko \@yokofalse
-\newif\if@autotateyoko \@autotateyokofalse
-\DeclareOption{tate}{\@autotateyokofalse\@tatetrue\@yokofalse}
-\DeclareOption{yoko}{\@autotateyokofalse\@yokotrue\@tatefalse}
+\newif\if@endnj@tate \@endnj@tatefalse
+\newif\if@endnj@yoko \@endnj@yokofalse
+\newif\if@endnj@autotateyoko \@endnj@autotateyokofalse
+\DeclareOption{tate}{\@endnj@autotateyokofalse\@endnj@tatetrue\@endnj@yokofalse}
+\DeclareOption{yoko}{\@endnj@autotateyokofalse\@endnj@yokotrue\@endnj@tatefalse}
 %
 %  Use conditional definitions for switching marks depending on
 %  vertical/horizontal Japanese writing direction
-\DeclareOption{auto-tateyoko}{\@autotateyokotrue\@tatefalse\@yokofalse}
+\DeclareOption{auto-tateyoko}{\@endnj@autotateyokotrue\@endnj@tatefalse\@endnj@yokofalse}
 %
 %  Brackets - single or twin?
-\newif\if@kakko \@kakkofalse
-\DeclareOption{twin}{\@kakkofalse} % => default
-\DeclareOption{single}{\@kakkotrue}
+\newif\if@endnj@single \@endnj@singlefalse
+\DeclareOption{twin}{\@endnj@singlefalse} % => default
+\DeclareOption{single}{\@endnj@singletrue}
 %
 %  Use utf/otf package?
-\newif\if@utf \@utffalse
-\DeclareOption{utf}{\@utftrue}
-\DeclareOption{otf}{\@utftrue}
+\newif\if@endnj@utf \@endnj@utffalse
+\DeclareOption{utf}{\@endnj@utftrue}
+\DeclareOption{otf}{\@endnj@utftrue}
 %
 %  `ver3' mode - Use improved styles of \@makeenmark (endnote marks) and
 %                \enoteformat (the endnote format)
@@ -141,30 +141,30 @@
   \fi}
 %
 %  If `single' is specified, `tate' should be false
-\if@kakko
-  \if@tate
+\if@endnj@single
+  \if@endnj@tate
     \PackageWarning{endnotesj}{%
       Option `single' cannot be used with `tate'.\MessageBreak
       Please use `auto-tateyoko' or `yoko'.\MessageBreak
       Entering `auto-tateyoko' mode}
-    \@autotateyokotrue\@tatefalse\@yokofalse
+    \@endnj@autotateyokotrue\@endnj@tatefalse\@endnj@yokofalse
   \fi
 \fi
 %
 %  If `otf'/`utf' options are specified, load either of otf.sty/utf.sty
-\if@utf
+\if@endnj@utf
 \ifx\directlua\@undefined
   \@ifpackageloaded{utf}{}{\@ifpackageloaded{otf}{}{%
     \IfFileExists{otf.sty}{\RequirePackage{otf}}{%
     \IfFileExists{utf.sty}{\RequirePackage{utf}}{%
     \PackageError{endnotesj}{Neither otf.sty nor utf.sty found}\@ehc
-    \@utffalse}% fall back
+    \@endnj@utffalse}% fall back
   }}}
 \else
   \@ifpackageloaded{luatexja-otf}{}{%
     \IfFileExists{luatexja-otf.sty}{\RequirePackage{luatexja-otf}}{%
     \PackageError{endnotesj}{luatexja-otf.sty not found}\@ehc
-    \@utffalse}% fall back
+    \@endnj@utffalse}% fall back
   }
 \fi
 \fi
@@ -311,23 +311,23 @@
   \csname endnj@%
     \romannumeral\endnj@vermode @%
     tate@%
-    \if@kakko single@\fi%
-    \if@utf utf@\fi%
+    \if@endnj@single single@\fi%
+    \if@endnj@utf utf@\fi%
     makeenmark\endcsname}
 \expandafter\def\expandafter\endnj@yoko@makeenmark\expandafter{%
   \csname endnj@%
     \romannumeral\endnj@vermode @%
     yoko@%
-    \if@kakko single@\fi%
-    \if@utf utf@\fi%
+    \if@endnj@single single@\fi%
+    \if@endnj@utf utf@\fi%
     makeenmark\endcsname}
 %
 %  Now, redefine \@makeenmark using above definitions
 %
-\if@tate
+\if@endnj@tate
   \let\@makeenmark\endnj@tate@makeenmark
 \fi
-\if@yoko
+\if@endnj@yoko
   \let\@makeenmark\endnj@tate@makeenmark
 \fi
 %
@@ -545,23 +545,23 @@
   \csname endnj@%
     \romannumeral\endnj@vermode @%
     tate@%
-    \if@kakko single@\fi%
-    \if@utf utf@\fi%
+    \if@endnj@single single@\fi%
+    \if@endnj@utf utf@\fi%
     enoteformat\endcsname}
 \expandafter\def\expandafter\endnj@yoko@enoteformat\expandafter{%
   \csname endnj@%
     \romannumeral\endnj@vermode @%
     yoko@%
-    \if@kakko single@\fi%
-    \if@utf utf@\fi%
+    \if@endnj@single single@\fi%
+    \if@endnj@utf utf@\fi%
     enoteformat\endcsname}
 %
 %  Now, redefine \enoteformat using above definitions
 %
-\if@tate
+\if@endnj@tate
   \let\enoteformat\endnj@tate@enoteformat
 \fi
-\if@yoko
+\if@endnj@yoko
   \let\enoteformat\endnj@yoko@enoteformat
 \fi
 %
@@ -618,7 +618,7 @@
   \catcode`\L=9\relax
   \catcode`\P=14\relax
 \fi
-\if@autotateyoko
+\if@endnj@autotateyoko
   \def\@makeenmark{%
 P   \iftdir
 L   \ifnum\numexpr
