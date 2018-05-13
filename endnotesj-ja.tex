@@ -36,7 +36,9 @@
 \usepackage{doc}
 \usepackage{endnotesj}
 \GetFileInfo{endnotesj.sty}
-\title{\textsf{\filename} \fileversion\\
+\def\Lpack#1{\textsf{#1}}
+\def\Lopt#1{\texttt{#1}}
+\title{\Lpack{\filename} \fileversion\\
        日本語論文用 後註生成マクロ for p\LaTeXe}
 \author{小川 弘和（熊本学園大学経済学部）\\
         modified by 山下 弘展}
@@ -48,88 +50,22 @@
 日本史・国文学関係論文作成に必要な、縦型の“（連数字）”形式
 註番号および、複数行にわたる註部分テキストの2行目以降を、先頭行
 テキスト開始位置に揃える表記を可能とした、後註生成マクロです。
-縦組論文での使用を前提に作成されていますが、横組論文でもその
+縦組論文での使用を意図して作成していますが、横組論文でもその
 まま使用可能です。
 
-このバージョン(\fileversion)は、以前のバージョンとの互換性を
-保ちつつ、endnotes内部マクロを本家最新版に合わせて更新し、
-機能を拡張したものです。最新版はGitHubリポジトリ
+このバージョン(\fileversion)は、旧版との互換性を極力維持しつつ、
+内部マクロを本家(\Lpack{endnotes.sty})最新版に合わせて更新し、さらに
+機能拡張を施したものです。旧版同様にp\LaTeX/up\LaTeX{}で動作する
+ことに加え、Lua\LaTeX\ (Lua\TeX-ja)にも対応しています。
+最新版はGitHubリポジトリ
 \begin{verbatim}
   https://github.com/aminophen/endfootnotesj
 \end{verbatim}
 で管理しています。
 
-\section{パッケージ・オプション}
-
-はじめに、パッケージのオプションを説明します。
-
-\subsection{注釈印の書式}
-
-プリアンブルで
-\begin{verbatim}
-  \usepackage{endnotesj}
-\end{verbatim}
-とすることで、縦組用の“（連数字）”型注（『日本史研究』等の形式。
-本文中では、注挿入指定位置直前の文字の直上に注No.を配置する。）が
-使用可能に、
-\begin{verbatim}
-  \usepackage[yoko]{endnotesj}
-\end{verbatim}
-とすることで、横組用の“（数字）”型注（本文中では、注挿入指定
-位置直前の文字の直後上方に、ほぼ1/4倍角で注No.を配置する。）が
-使用可能に、
-\begin{verbatim}
-  \usepackage[single]{endnotesj}
-\end{verbatim}
-とすることで、横組用の“数字）”型注（『歴史学研究』等の形式。
-本文中では、注挿入指定位置直前の文字の直後上方に、ほぼ1/4倍角で
-注No.を配置する。）が使用可能になります。
-
-\subsection{otf/utfパッケージを用いた注釈印の書式}
-
-otf (utf)パッケージをインストールしてある環境であれば、注番号の
-数字に詰数字を用い、より奇麗に表示可能です。この機能を使うには
-\begin{verbatim}
-  \usepackage[otf]{endnotesj}
-\end{verbatim}
-または
-\begin{verbatim}
-  \usepackage[utf]{endnotesj}
-\end{verbatim}
-オプションを指定します（otfオプションは、v3.0で新たに追加され
-たもので、旧バージョンv2.1のutfオプションの単なるコピーです）。
-
-なお、このオプションを用いる場合otf.sty (utf.sty)、
-ajmacros.sty (utfmacro.sty)で定義されている
-\verb+\UTF+・\verb+\ajTumesuji+コマンドに動作が依存しますが、
-その際にはotf.sty、utf.styの存在するいずれか一方が自動的に読み
-込まれます（両方存在する場合には、otf.styが優先されます）ので、
-別に読み込みの宣言をする必要はありません。ただしutf.styあるいは
-otf.styで各種オプション（expertオプションなど）を用いたい場合
-には、これとは別にendnotesj.styより\emph{前}に、明示的に
-プリアンブルで宣言をする必要があります。その場合、使用宣言され
-たほうのスタイルに従い、endnotesj.styは動作します。
-
-\subsection{後注列挙部分のタイトル}
-
-ここまでの節で紹介したオプション以外が\verb+\usepackage+の
-オプションに指定された場合は、それを後注列挙部分のタイトルと
-して用います。たとえば、
-\begin{verbatim}
-  \usepackage[注]{endnotesj}
-\end{verbatim}
-オプションで、文末の後注列挙部分の先頭に「注」、
-\begin{verbatim}
-  \usepackage[註]{endnotesj}
-\end{verbatim}
-オプションで「註」と表記されます（v2.1以前は「注」と「註」のみ
-サポートしていましたが、v3.0以降は「注釈」や「後註」なども
-自由に指定できます）。オプション無指定の場合には、何も表記せぬ
-まま、注が列挙されていきます。
-
 \section{コマンド・マニュアル}
 
-コマンド自体はオリジナルであるendnotes.styよりの変更はありません。
+コマンド自体はオリジナルである\Lpack{endnotes.sty}と同じです。
 
 \begin{itemize}
 \item \verb+\endnote{註}+\\
@@ -163,9 +99,74 @@ otf.styで各種オプション（expertオプションなど）を用いたい�
   によって、容易に章・節ごとの後註が作成できます。
 \end{itemize}
 
+\section{パッケージ・オプション}
+
+次に、パッケージのオプションを説明します。
+これらは\Lpack{endnotesj.sty}独自のものです。
+
+\subsection{注釈印の書式}
+
+プリアンブルで
+\begin{verbatim}
+  \usepackage{endnotesj}
+\end{verbatim}
+とすることで、縦組用の“（連数字）”型注（『日本史研究』等の形式。
+本文中では、注挿入指定位置直前の文字の直上に注No.を配置する。）が
+使用可能に、
+\begin{verbatim}
+  \usepackage[yoko]{endnotesj}
+\end{verbatim}
+とすることで、横組用の“（数字）”型注（本文中では、注挿入指定
+位置直前の文字の直後上方に、ほぼ1/4倍角で注No.を配置する。）が
+使用可能に、
+\begin{verbatim}
+  \usepackage[single]{endnotesj}
+\end{verbatim}
+とすることで、横組用の“数字）”型注（『歴史学研究』等の形式。
+本文中では、注挿入指定位置直前の文字の直後上方に、ほぼ1/4倍角で
+注No.を配置する。）が使用可能になります。
+
+\subsection{\Lpack{otf}パッケージを用いた注釈印の書式}
+
+\Lpack{otf}パッケージをインストールしてある環境であれば、
+注番号の数字に詰数字を用い、より奇麗に表示可能です。
+この機能を使うには
+\begin{verbatim}
+  \usepackage[otf]{endnotesj}
+\end{verbatim}
+と指定します。\Lopt{otf}はv3.0で新設されたオプションで、
+旧バージョンv2.1にあった\Lopt{utf}も同じ意味になります。
+
+このオプションを指定すると、
+\Lpack{otf.sty}および\Lpack{ajmacros.sty}で定義されている
+\verb+\UTF+・\verb+\ajTumesuji+コマンドに動作が依存します。
+そのため、これらのパッケージを自動で読み込みます
+\footnote{古い環境で\Lpack{utf.sty}および\Lpack{utfmacro.sty}しか
+利用できない場合は、これらにフォールバックします。}。このため、
+別途これらのパッケージを\verb+\usepackage+する必要はありませんが、
+\Lpack{otf.sty}の各種オプション（\Lopt{expert}など）を用いたい場合は
+\Lpack{endnotesj.sty}より\emph{前}に指定してください。
+
+\subsection{後注列挙部分のタイトル}
+
+ここまでの節で紹介したオプション以外が\verb+\usepackage+の
+オプションに指定された場合は、それを後注列挙部分のタイトルと
+して用います。たとえば、
+\begin{verbatim}
+  \usepackage[注]{endnotesj}
+\end{verbatim}
+オプションで、文末の後注列挙部分の先頭に「注」、
+\begin{verbatim}
+  \usepackage[註]{endnotesj}
+\end{verbatim}
+オプションで「註」と表記されます（v2.1以前は「注」と「註」のみ
+サポートしていましたが、v3.0以降は「注釈」や「後註」なども
+自由に指定できます）。オプション無指定の場合には、何も表記せぬ
+まま、注が列挙されていきます。
+
 \section{行数・桁数指定マクロ}
 
-endnotesj.styには、
+\Lpack{endnotesj.sty}には、
 『\LaTeX{}スタイル・マクロ ポケットリファレンス』（技術評論社）、
 いわゆるポケリで紹介されている行数・桁数指定マクロも組み込んで
 あり、使用することが可能です。用紙サイズにあわせて自動的に字間
@@ -188,47 +189,44 @@ endnotesj.styには、
 ここでは、20文字に指定しています。こちらは本文で指定するか、
 \verb+\AtBeginDocument{}+に入れて使用します。
 
-\section{旧版との違い}
+\section{旧版（v2.1以前）との違い}
 
-v2.1以前とv3.0以降の唯一の違いとして、v2.1では「注」と「註」を
-同時に指定した場合には「注」が優先されましたが、v3.0以降は
-「複数指定されたうちの最後の一つ」が優先されます。同時に指定
-するという使い方は全く無意味でしたから、影響はないと思います。
+% ---- 細かい挙動なので削除 ----
+% v2.1以前とv3.0以降の唯一の違いとして、v2.1では「注」と「註」を
+% 同時に指定した場合には「注」が優先されましたが、v3.0以降は
+% 「複数指定されたうちの最後の一つ」が優先されます。同時に指定
+% するという使い方は全く無意味でしたから、影響はないと思います。
 
-なお、v2よりもっと古く配布していた、横組用“数字）”型表記用
-マクロendnotesjs.styは、endnotesj.styに機能が改良統合された
-ため、廃止しました。また、以前は本文肩註番号表記の実現に際し、
-金水敏氏が作成された訓点資料表記用マクロkunten2e.styに定義され
-ている\verb+\MigiNakaTn+コマンドに依存しておりましたが、記述を
-見直すことにより、非依存となりました。
+% ----- 2018 年となっては 15 年以上前の話なので削除 -----
+% なお、v2よりもっと古く配布していた、横組用“数字）”型表記用
+% マクロendnotesjs.styは、endnotesj.styに機能が改良統合された
+% ため、廃止しました。また、以前は本文肩註番号表記の実現に際し、
+% 金水敏氏が作成された訓点資料表記用マクロkunten2e.styに定義され
+% ている\verb+\MigiNakaTn+コマンドに依存しておりましたが、記述を
+% 見直すことにより、非依存となりました。
 
-その他、v2.1からv3.0での変更点は、以下のとおりです。
+旧版(v2.1)からv3.0での変更点は、以下のとおりです。
 \begin{itemize}
 \item パッケージのコード本体からASCII文字以外を排除。
+\item 後註内部マクロを最新の\Lpack{endnotes.sty}%
+  \footnote{Date of this version: 15 January 2003.}ベースに更新。
+  これにより、例えば本文中で合印直前で行分割することがあった問題が
+  解決しました。
+\item  パッケージのオプションを拡張。
+  組方向（縦・横）に応じて適切な注の印が出る\Lopt{auto-tateyoko}を
+  新設し、これをデフォルトに設定しました。
+  また、「注」「註」以外のタイトル形式を可能になりました。
+\item もし本家パッケージ(\Lpack{endnotes.sty})が存在する場合で、
+  \Lpack{endnotesj.sty}が読み込まれた時点で未読み込みならば、
+  読み込み済み扱いするようにした（そうしないと、後で意図せず
+  読み込まれて、日本語対応コードが上書きされるかもしれないため。）
 \item \verb+\linesparpage+の修正（行間の数ではなく行数で割って
-  いたため、行数が合わないことがあった。また、\verb+\topskip+の
-  分を差し引いていなかったため、正しい行間隔になっていなかった。）
-\item 後註内部マクロをより新しいendnotes.styベースに更新（現時点
-  でのendnotes.sty最新版は
-    Date of this version: 15 January 2003.
-  と表示されている。）
-\item  パッケージのオプションを拡張（auto-tateyokoオプションを
-  使うと、組方向（縦・横）に応じて適切な注の印が出るようにした。
-  また、「注」「註」以外のタイトル形式を可能にした。）
-\item もし本家パッケージ(endnotes.sty)が存在する場合で、
-  endnotesj.styが読みこまれた時点で未読み込みならば、
-  読みこみ済み扱いするようにした（そうしないと、後で意図せず
-  読み込まれて、日本語対応コードが上書きされるかもしれない。）
+  いたため、行数が合わないことがありました。また、\verb+\topskip+の
+  分を差し引いておらず、正しい行間隔になっていませんでした。）
 \end{itemize}
 
 \section{実際のスタイル見本（日本語版）}
 
-旧版(v2.1)まではパッケージをISO-2022-JPエンコーディング(JIS)で
-記述し、そのコードの説明を日本語で含んでいましたが、v3.0からは
-すべてのコードをASCII文字で書き直しました。
-コードの説明もすべて英訳しましたので、代わりに日本語による
-スタイル見本をここに置いておきます。
-
-…作業中…
+スタイル見本はGitHubのsamplesディレクトリを参照してください。
 
 \end{document}

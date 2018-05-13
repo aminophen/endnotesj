@@ -22,7 +22,7 @@
 %
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{endnotesj}
-  [2016/09/21 v2.9i endnotesj (H. Ogawa and H. Yamashita)]
+  [2018/05/13 v3.0-beta1 endnotesj (H. Ogawa and H. Yamashita)]
 %
 %% Requirements: engine & format
 %
@@ -96,14 +96,14 @@
 %
 %  `ver3' mode - Use improved styles of \@makeenmark (endnote marks) and
 %                \enoteformat (the endnote format)
-\newcount\endnj@vermode \endnj@vermode=\thr@@
-\DeclareOption{ver3}{\endnj@vermode=\thr@@} % => default
+\def\endnj@vermode{3}
+\DeclareOption{ver3}{\def\endnj@vermode{3}} % => future default
 %
 %  `ver2' mode - For backward compatibility: use styles of \@makeenmark
 %                and \enoteformat which are inherited from previous
 %                versions of endnotesj.sty
 \DeclareOption{ver2}{\typeout{*** endnotesj version 2 compatibility mode ***}%
-                     \endnj@vermode=\tw@}
+                     \def\endnj@vermode{2}}
 %
 %  Other options are unknown, however endnotesj.sty accepts only one
 %  unknown option, which is then regarded as \notesname (= endnote section title)
@@ -116,7 +116,7 @@
                   \edef\endnj@temp@ptions{\endnj@temp@ptions,\CurrentOption}%
                 \fi
                 \edef\notesname{\CurrentOption}}
-\ExecuteOptions{tate,twin,ver3}
+\ExecuteOptions{auto-tateyoko,twin,ver3}
 \ProcessOptions
 %
 %% Option handlings
@@ -309,14 +309,14 @@
 %
 \expandafter\def\expandafter\endnj@tate@makeenmark\expandafter{%
   \csname endnj@%
-    \romannumeral\the\endnj@vermode @%
+    \romannumeral\endnj@vermode @%
     tate@%
     \if@kakko single@\fi%
     \if@utf utf@\fi%
     makeenmark\endcsname}
 \expandafter\def\expandafter\endnj@yoko@makeenmark\expandafter{%
   \csname endnj@%
-    \romannumeral\the\endnj@vermode @%
+    \romannumeral\endnj@vermode @%
     yoko@%
     \if@kakko single@\fi%
     \if@utf utf@\fi%
@@ -543,14 +543,14 @@
 %
 \expandafter\def\expandafter\endnj@tate@enoteformat\expandafter{%
   \csname endnj@%
-    \romannumeral\the\endnj@vermode @%
+    \romannumeral\endnj@vermode @%
     tate@%
     \if@kakko single@\fi%
     \if@utf utf@\fi%
     enoteformat\endcsname}
 \expandafter\def\expandafter\endnj@yoko@enoteformat\expandafter{%
   \csname endnj@%
-    \romannumeral\the\endnj@vermode @%
+    \romannumeral\endnj@vermode @%
     yoko@%
     \if@kakko single@\fi%
     \if@utf utf@\fi%
@@ -562,7 +562,7 @@
   \let\enoteformat\endnj@tate@enoteformat
 \fi
 \if@yoko
-  \let\enoteformat\endnj@tate@enoteformat
+  \let\enoteformat\endnj@yoko@enoteformat
 \fi
 %
 %% End
