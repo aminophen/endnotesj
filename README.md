@@ -1,16 +1,12 @@
-# endfootnotesj
+# endnotesj
 
-This bundle provides customized styles for endnote and footnote
-to be used with Japanese documents (pLaTeX2e and upLaTeX2e).
-
-## Character encoding
-
-All the package files contain ASCII characters only.
+This bundle provides customized styles for endnote
+to be used with Japanese documents (pLaTeX, upLaTeX and LuaLaTeX).
 
 ## Installation
 
-- *.sty -> $TEXMF/tex/platex/endfootnotesj
-- *.tex, *.pdf -> $TEXMF/doc/platex/endfootnotesj
+- *.sty -> $TEXMF/tex/platex/endnotesj
+- *.tex, *.pdf -> $TEXMF/doc/platex/endnotesj
 
 ## Repository
 
