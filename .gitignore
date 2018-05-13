@@ -156,5 +156,8 @@ pythontex-files-*/
 *.ttt
 *.fff
 
+# endnotes
+*.ent
+
 # Latexian
 TSWLatexianTemp*
