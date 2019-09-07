@@ -15,7 +15,6 @@ all: endnotesj-ja.pdf
 .PHONY: install clean
 install:
 	mkdir -p ${TEXMF}/doc/latex/endnotesj
-	cp ./Makefile ${TEXMF}/doc/latex/endnotesj/
 	cp ./LICENSE ${TEXMF}/doc/latex/endnotesj/
 	cp ./README.md ${TEXMF}/doc/latex/endnotesj/
 	cp ./*.pdf ${TEXMF}/doc/latex/endnotesj/
